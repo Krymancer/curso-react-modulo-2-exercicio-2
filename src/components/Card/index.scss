@@ -1,0 +1,17 @@
+.card {
+  background-color: #44475a;
+  padding: 1em;
+  margin-bottom: 50px;
+  max-width: 500px;
+  div {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    font-size: 20px;
+    padding: 0.4em;
+
+    svg {
+      margin-right: 0.3em;
+    }
+  }
+}
