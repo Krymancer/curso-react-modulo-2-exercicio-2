@@ -15,3 +15,7 @@ passo a passo necessário para realizar tal tarefa está posto na apostila do M�
    campo de texto “chave de busca” e um botão “pesquisar”. Quando o usuário clicar
    em “pesquisar”, será disparada uma requisição GET com a URI
    https://hn.algolia.com/api/v1/search?query=X, tal que X é o valor de “chave de busca”.
+
+# Deploy
+
+Você pode acessar o deploy clicando [aqui](http://krymancer.me/curso-react-modulo-1-exercicio-2/)
