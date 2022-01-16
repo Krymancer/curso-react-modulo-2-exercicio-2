@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "./index.scss";
@@ -11,34 +11,16 @@ import { response, book } from "../../api/interfaces";
 
 type Props = {};
 
-type State = {
-  title: string;
-  query: string;
-  books: book[];
-};
+const Main: React.FC<Props> = () => {
+  const title = process.env.REACT_APP_TITLE || "Title not found in env file";
+  const [q, sq] = useState<string>("");
+  const [books, sb] = useState<book[]>([]);
 
-class Main extends React.Component<Props, State> {
-  state: State = {
-    title: process.env.REACT_APP_TITLE || "Title not found in env file",
-    query: "",
-    books: [],
-  };
-
-  sq(query: string) {
-    this.setState({ query });
-  }
-
-  sb(books: book[]) {
-    this.setState((state) => ({
-      books: books,
-    }));
-  }
-
-  fetch = () => {
+  function fetch() {
     const URI = "search";
 
     const params = {
-      query: this.state.query,
+      query: q,
     };
 
     try {
@@ -54,7 +36,7 @@ class Main extends React.Component<Props, State> {
           return book;
         });
 
-        this.sb(books);
+        sb(books);
       });
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -63,34 +45,29 @@ class Main extends React.Component<Props, State> {
         throw error;
       }
     }
-  };
+  }
 
-  render() {
-    return (
-      <div className="container">
-        <h1>{this.state.title}</h1>
-        <div className="content">
-          <div className="searchContainer">
-            <input
-              className="search"
-              onChange={(e) => this.sq(e.target.value)}
+  return (
+    <div className="container">
+      <h1>{title}</h1>
+      <div className="content">
+        <div className="searchContainer">
+          <input className="search" onChange={(e) => sq(e.target.value)} />
+          <button onClick={fetch}>Search</button>
+        </div>
+        <div className="results">
+          {books.map((book) => (
+            <Card
+              key={book.title}
+              author={book.author}
+              title={book.title}
+              url={book.url}
             />
-            <button onClick={this.fetch}>Search</button>
-          </div>
-          <div className="results">
-            {this.state.books.map((book) => (
-              <Card
-                key={book.title}
-                author={book.author}
-                title={book.title}
-                url={book.url}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Main;
